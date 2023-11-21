@@ -46,8 +46,8 @@ module.exports = {
     },      
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'BugArena2',
-            description: 'bugarena',
+            title: 'BugLife',
+            description: 'buglife',
             template: 'src/page-template.hbs'
         })
     ]

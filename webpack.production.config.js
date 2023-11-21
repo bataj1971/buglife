@@ -1,14 +1,12 @@
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/js/index.ts',
     output: {
         filename: 'bundle.[contenthash].js',
         path: path.resolve(__dirname, './dist'),
-        publicPath: ''
+        publicPath: 'auto',
     },
     mode: 'production',
     optimization: {
@@ -29,41 +27,30 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    MiniCssExtractPlugin.loader, 'css-loader'
+                    'style-loader', 'css-loader'
                 ]
             },
             {
                 test: /\.scss$/,
                 use: [
-                    MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'
+                    'style-loader', 'css-loader', 'sass-loader'
                 ]
             },
             {
-                test: /\.js$/,
+                test: /\.ts$/,
+                use: 'ts-loader',
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [ 'stage-0' ]
-                    }
-                }
-            },
-            {
-                test: /\.hbs$/,
-                use: [
-                    'handlebars-loader'
-                ]
-            }
+            },                          
+
         ]
     },
+    resolve: {
+        extensions: ['.ts', '.js', '.json']
+    },
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: 'styles.[contenthash].css'
-        }),
-        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            title: 'Hello world',
-            description: 'Hello world',
+            title: 'BugLife',
+            description: 'buglife',
             template: 'src/page-template.hbs'
         })
     ]
