@@ -1,107 +1,106 @@
-<!doctype html>
-
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="BugArena 2 - Bata József">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="BugArena 2 - Bata József" />
     <title>BugArena II - Bata József</title>
-</head>
-<body>
-	<div id = 'wrapper'>
-            <div id = 'header'>
-                <h1>BugArena</h1>
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="header">
+        <h1>BugArena</h1>
+      </div>
+
+      <div id="page">
+
+        <div id="leftpanel">
+          <fieldset id="control">
+            <legend>Game</legend>
+
+            <div class="inputline">
+              <button id="stopgame"> stop </button>
+              <button id="startgame"> start </button>
             </div>
-
-            <div id = 'page'>
-
-
-
-                <div id='leftpanel'>
-                    <fieldset id='control'>
-                        <legend>Game</legend>
-
-                        <div class='inputline'>
-                            <button id='stopGame'> stop </button>
-                            <button id='startGame'> start </button>
-                        </div>
-                        <hr>
-                        <div class='inputline'>
-                            <label>Game speed:</label><input type = 'range' min="0" max="100" value="50" id="gameSpeed">
-                        </div>
-                        <div class='inputline'>
-
-
-                        </div>
-
-                    </fieldset>
-
-                    <fieldset id='food'>
-                        <legend>food</legend>
-                            <label>Food:</label>
-                            <input id ='foodvalaue' type='number' value = '500'>
-                            <button id='addfood'> Add food</button>
-
-                    </fieldset>
-
-                    <fieldset id='addbug'>
-                        <legend>Add Bug with initial values:</legend>
-                        <div class='inputline'>                            
-                            <select name="bugtype" id="bugtype">
-                                <option value="simplebug">simplebug</option>
-                                <option value="runnerbug">runnerbug</option>
-                                <option value="killerbug">Killerbug</option>
-                            </select>
-                        </div>
-
-                        <label class='grouplabel'>Inheritable properties:</label>
-
-                        <div id="propertyinputs"></div>    
-                        <hr>
-                        
-                        <label class='grouplabel'>Add bugs:</label>
-                        <div class='inputline'>
-                            <label>Number of bugs:</label><input id ='bugnumbertoadd' type='number' value = 10 min="1" max="100">
-                        </div>
-                        <div class='inputline'>
-                            <label>With body:</label><input id ='initialbodyvalue' type='number' value = 30 min="10" max="100">
-                            <button id='addbugs'> Add Bug(s) </button>
-                        </div>
-
-
-                        <div class='inputline right'>
-                            <label></label>
-                        </div>
-
-                    </fieldset>
-
-
-
-                </div>
-
-                <div id ='context'>
-                    <fieldset >
-                        <legend>Arena <span id ='lifetime'></span> </legend>
-
-                        <canvas id="arenaView" height="500" width="500" ></canvas>
-
-                    </fieldset>
-                </div>
-                    <fieldset id='stat'>
-                        <legend>Game stat</legend>
-                        <div class='inputline'>
-                            <label>Bug count</label><div id ='bugcount' class='stat number'></div>
-                        </div>
-                    </fieldset>
-
+            <hr />
+            <div class="inputline">
+              <label>Game speed:</label><input type="range" min="0" max="100" value="50" id="gamespeed" />
+            </div>
+            <div class="inputline">
 
             </div>
 
-            <div id = 'footer'>
-                <div id ='author'>&copy; <a href='http://batajozsef.hu'>batajozsef.hu</a></div>
-                <div id ='message'>waiting..</div>
+          </fieldset>
+
+          <fieldset id="food">
+            <legend>food</legend>
+            <label>Food:</label>
+            <input id="foodvalaue" type="number" value="500" />
+            <button id="addfood"> Add food</button>
+
+          </fieldset>
+
+          <fieldset id="addbugcontainer">
+            <legend>Add Bug with initial values:</legend>
+            <div class="inputline">
+              <select name="bugtype" id="bugtype">
+                <option value="simplebug">simplebug</option>
+                <option value="runnerbug">runnerbug</option>
+                <option value="killerbug">Killerbug</option>
+              </select>
             </div>
 
-	</div>
-</body>
+            <label class="grouplabel">Inheritable properties:</label>
+
+            <div id="propertyinputs"></div>
+            <hr />
+
+            <label class="grouplabel">Add bugs:</label>
+            <div class="inputline">
+              <label>Number of bugs:</label><input id="bugnumbertoadd" type="number" value="1" min="1" max="100" />
+            </div>
+            <div class="inputline">
+              <label>With body:</label><input id="initialbodyvalue" type="number" value="30" min="10" max="100" />
+              <button id="addbug"> Add Bug(s) </button>
+            </div>
+
+            <div class="inputline right">
+              <label></label>
+            </div>
+
+          </fieldset>
+
+        </div>
+
+        <div id="context">
+          <fieldset>
+            <legend>Arena <span id="lifetime"></span> </legend>
+
+            <canvas id="arenaView" height="500" width="500"></canvas>
+
+          </fieldset>
+        </div>
+
+        <fieldset id="stat">
+          <legend>Game stat</legend>
+          <div class="inputline">
+            <label>Bug count</label><div id="bugcount" class="stat number"></div>
+          </div>          
+        </fieldset>
+
+        <fieldset id="buginfocus">
+          <legend>Bug in focus</legend>
+          <div id="buginfocus-content">            
+          </div>          
+        </fieldset>
+
+
+      </div>
+
+      <div id="footer">
+        <div id="author">&copy; <a href="http://batajozsef.hu">batajozsef.hu</a></div>
+        <div id="message">waiting..</div>
+      </div>
+
+    </div>
+  </body>
 </html>

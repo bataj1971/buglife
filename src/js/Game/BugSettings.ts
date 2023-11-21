@@ -1,15 +1,3 @@
-// export interface BugSettings0 {
-//   intelligence: number;
-//   turnSpeed: number;
-//   speed: number;
-//   agressiveness: number;
-//   firstReproductionTime: number;
-//   reproductionTimeCycle: number;
-//   viewRadius: number;
-//   startBody: number;
-//   childsPerBear: number;
-// }
-
 export class BugSettings {
   public static readonly propertyNames = ["intelligence", "turnSpeed", "speed", "agressiveness", "firstReproductionTime", "reproductionTimeCycle", "viewRadius", "startBody", "childsPerBear"];
   private properties: Map<string, number>;

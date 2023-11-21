@@ -26,10 +26,36 @@ export class ArenaView extends GameScreen {
   }
 
   drawBug(bug: Bug) {
+    if (bug.getBody() <= 0) { 
+      return;
+    }
     const pos = bug.getPos();
     const body = bug.getBody();
-    const color = bug.getSex() === BugSexOptions.male ? "blue" : "red";
-    this.drawCircle(pos.x, pos.y, body * 0.3, color, 1);
+    const sex = bug.getSex() === BugSexOptions.male ? 0.5 : 1;
+    const type = bug.getType();
+    
+    let color = "rgba(" + 255 * sex + "," + 255 * sex + "," + 255 * sex + ",1)";
+    switch (type) {
+      case "simplebug":
+        color = "rgba(0," + 255 * sex + ",0,1)";
+        break;
+      case "runnerbug":
+        color = "rgba(0,0," + 255 * sex + ",1)";
+        break;
+      case "killerbug":
+        color = "rgba(" + 255 * sex + ",0,0,1)";
+        break;      
+    }
+
+
+    try {
+      this.drawCircle(pos.x, pos.y, body * 0.3, color, 1);  
+    } catch (error) {
+      console.log("Error occured with bug:",bug);
+      
+      console.error(error);
+    }
+    
   }
 
   displayFoods() {

@@ -11,6 +11,8 @@ export class GameControls {
   private initialBodyValueElement: HTMLInputElement;
   private bugTypeElement: HTMLSelectElement;
 
+  private startButtonElement: HTMLButtonElement;
+  private stopButtonElement: HTMLButtonElement;
   private addFoodButtonElement: HTMLButtonElement;
   private addBugsButtonElement: HTMLButtonElement;
 
@@ -21,9 +23,12 @@ export class GameControls {
   private canvasElement: HTMLElement;
   private propertyInputElements: Map<string, HTMLInputElement>;
 
+  //stat elements
+  private bugInfoContentElement: HTMLElement;
+
   constructor(gameMaster: GameMaster) {
     this.gameMaster = gameMaster;
-    this.gameSpeedElement = document.querySelector("#gamespeed") as HTMLInputElement;
+
     this.propertyInputElements = new Map();
 
     // displayelements
@@ -34,12 +39,22 @@ export class GameControls {
     this.canvasElement = document.querySelector("canvas#arenaView") as HTMLElement;
     this.canvasElement.addEventListener("click", this.addFoodToLocation.bind(this));
 
-    // controlls:
+    // main controlls:
+    this.startButtonElement = document.querySelector("#startgame") as HTMLButtonElement;
+    this.startButtonElement.addEventListener("click", this.gameMaster.start.bind(this.gameMaster));
+
+    this.stopButtonElement = document.querySelector("#stopgame") as HTMLButtonElement;
+    this.stopButtonElement.addEventListener("click", this.gameMaster.stop.bind(this.gameMaster));
+
+    this.gameSpeedElement = document.querySelector("#gamespeed") as HTMLInputElement;
+    this.gameSpeedElement.addEventListener("change", this.gameMaster.setSpeed.bind(this.gameMaster));
+    // food control
     this.foodValueElement = document.querySelector("#foodvalaue") as HTMLInputElement;
 
     this.addFoodButtonElement = document.querySelector("#addfood") as HTMLButtonElement;
     this.addFoodButtonElement.addEventListener("click", this.gameMaster.addFoodToRandomLocation.bind(this.gameMaster));
 
+    // add new bug controls
     this.addBugsButtonElement = document.querySelector("#addbug") as HTMLButtonElement;
     this.addBugsButtonElement.addEventListener("click", this.gameMaster.addBugsToArena.bind(this.gameMaster));
 
@@ -49,6 +64,9 @@ export class GameControls {
     this.bugNumberToAddElement = document.querySelector("#bugnumbertoadd") as HTMLInputElement;
     this.initialBodyValueElement = document.querySelector("#initialbodyvalue") as HTMLInputElement;
     this.createPropertyInputs();
+
+    // stat elemets
+    this.bugInfoContentElement = document.querySelector("#buginfocus-content") as HTMLElement;
   }
 
   getBugNumberToAdd(): number {
@@ -103,8 +121,7 @@ export class GameControls {
       labelElement.innerHTML = name + ":";
 
       const inputElement = document.createElement("input");
-      inputElement.id = name;
-      // inputElement.type = 'number';
+      inputElement.id = name;      
       inputElement.type = "range";
       inputElement.min = property.getMinValue().toString();
       inputElement.max = property.getMaxValue().toString();
@@ -144,5 +161,9 @@ export class GameControls {
 
       ie.value = value.toString();
     });
+  }
+
+  setBugInfoContentElement(content: string) { 
+    this.bugInfoContentElement.innerHTML = content;
   }
 }

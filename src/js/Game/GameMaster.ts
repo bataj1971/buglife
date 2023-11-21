@@ -33,9 +33,10 @@ export class GameMaster {
   }
 
   start() {
+    
     if (false === this.status) {
       this.status = true;
-      this.timer = setInterval(this.live, 1000 / this.runSpeed);
+      this.timer = setInterval(this.live.bind(this), 1000 / this.runSpeed);
       this.message("arena is running..");
     } else {
       this.message("arena is allready runnung..");
@@ -60,10 +61,10 @@ export class GameMaster {
   }
 
   live() {
-    // TODO
     this.click++;
     this.arena.live();
     this.displayGame();
+    this.getStatisctic();    
   }
 
   displayGame() {
@@ -71,60 +72,36 @@ export class GameMaster {
     this.gameScreen.showArena();
     this.showStats();
   }
+
   showStats() {
     const bugcount = this.arena.getBugCount();
     const lifetime = this.arena.getCounter();
     this.controls.displaytBugCount(bugcount);
     this.controls.displayLifeTime(lifetime);
-
-    // TODO:
-    // $("#bugcount").html( bugcount );
-    // $("#lifetime").html( lifetime );
   }
+
 
   addBugsToArena() {
-    console.log("addBugsToArena - under construction");
-
-    const bugsToAdd = this.controls.getBugNumberToAdd();
-    for (let c = 0; c < bugsToAdd; c++) {
-      this.addBugToArena();
-    }
-  }
-  addBugToArena() {
     const initialBodyValue = this.controls.getInitialBodyValue();
-    // this.message("addbug should be implemented");
-
-    const numberOfNewBugs = this.controls.getBugNumberToAdd(); //   $("#addbug input#" + "bugnumber").val();
-    const bodyValue = this.controls.getInitialBodyValue();  // $("#addbug input#" + "bodyvalue").val();
-
+    
+    const numberOfNewBugs = this.controls.getBugNumberToAdd(); 
+    
     const type = this.controls.getBugTypeValue();
     // var variability, variabilityMulyplier, value;
 
     const settings = new BugSettings();
-
-    const settingsFromControlPanel = new Map<string, number>();
-
-    for (let propertyName in BugSettings.propertyNames) { 
-
+    
+    
+    for (let propertyName of BugSettings.propertyNames) { 
       const value = this.controls.getInputPropertyValue(propertyName);
-      settingsFromControlPanel.(propertyName, value);
-      // settings.setProperty(propertyName, value);
+      settings.setProperty(propertyName, value);
     }
-    
-    
-
-    // for (let /*BugProperty*/ bugPropertyId in bugPropertySet.bugProperties) {
-    
-    //     var variability =
-    //       bugPropertySet.bugProperties[bugPropertyId].variability;
-    //     variabilityMulyplier =
-    //       (100 - variability + variability * 2 * Math.random()) / 100;
-    //     value = value * variabilityMulyplier;
     
     for (var bugCount = 0; bugCount < numberOfNewBugs; bugCount++) {
-       const newBug = new Bug(type , this.arena.getRandomPos(), settings, bodyValue, this.arena);
+       const newBug = new Bug(type , this.arena.getRandomPos(), settings, initialBodyValue, this.arena);
       this.arena.addBug(newBug);
     }
+
     this.displayGame();
   }
 
@@ -149,7 +126,10 @@ export class GameMaster {
   }
 
   loadBugTypeProperties() {
-    alert("loadBugTypeProperties:" + this.controls.getBugTypeValue());
+    // alert("loadBugTypeProperties:" + this.controls.getBugTypeValue());
+    // TODO load preset for the bugtype
+    // run evenProperties
+
   }
   getBugPropertyList() :BaseBugProperty[] {
     return this.bugPropertySet.getProperties();
@@ -157,7 +137,40 @@ export class GameMaster {
 
 
   getStatisctic() {
-    const statByType = new Map<string,typeStat>();
+    const statByType = new Map<string, typeStat>();
+    const bug = this.arena.getBugInFocus();
+    
+    
+    
+    if (bug !== undefined) { 
+      let bugInfo = new Map<string, any>();
+      bugInfo.set("type", bug.getType());
+      bugInfo.set("id", bug.id);
+      bugInfo.set("body", bug.getBody().toFixed(2));
+      bugInfo.set("sex", bug.getSex());
+      const bugPos = bug.getPos();
+      bugInfo.set("pos", bugPos.x.toFixed(2) + "," + bugPos.y.toFixed(2));
+      bugInfo.set("direction", bug.getDirection().toFixed(2)+"°");
+      bugInfo.set("speed", bug.getEffectiveSpeed());
+      const settings = bug.getSettings();
+
+      const propertyList = this.getBugPropertyList();
+      propertyList.forEach((property) => {
+        const name = property.getName();
+        const value = settings.getValue(name);
+        bugInfo.set(name, value);
+      });
+      
+      let report = '';
+      bugInfo.forEach((value, key) => {
+        report += (key + " : " + bugInfo.get(key) + "<br>");
+      });
+
+      // console.log("getStatisctic  bug:", report);
+      this.controls.setBugInfoContentElement(report);
+
+    }
+    
     this.arena.getBugList().forEach((bug: Bug) => { 
       if (false === statByType.has(bug.getType())) { 
         // const emptySettings: BugSettings = {intelligence:0,turnSpeed:0,}
